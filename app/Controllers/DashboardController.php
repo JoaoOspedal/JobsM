@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Models\ServicoModel;
 
 class DashboardController
 {
@@ -10,6 +11,11 @@ class DashboardController
     {
         Auth::checarLogado();
 
-        echo 'Bem-vindo, ' . htmlspecialchars($_SESSION['usuario_nome']) . '!';
+        $model = new ServicoModel();
+        $servicos = $model->listarTodos();
+        $totalUsuario = $model->totalPorUsuario($_SESSION['usuario_id']);
+        $pendentes = $model->pendentesPorUsuario($_SESSION['usuario_id']);
+
+        require __DIR__ . '/../Views/dashboard/index.php';
     }
 }
