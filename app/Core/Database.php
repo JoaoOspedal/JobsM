@@ -12,7 +12,7 @@ class Database {
         if(self::$instance === null){
             try{
                 self::$instance = new PDO(
-                    'mysql:host=localhost;dbname=teste;charset=utf8mb4',
+                    'mysql:host=localhost;dbname=jobsm;charset=utf8mb4',
                     'root',
                     '',
                     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
