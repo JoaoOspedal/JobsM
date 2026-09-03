@@ -31,4 +31,13 @@ class UsuarioModel
         
         return $usuario ?: null;
     }
+
+    public function buscarPorId(int $id): ?array
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $usuario ?: null;
+    }
 }

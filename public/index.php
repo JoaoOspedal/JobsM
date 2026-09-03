@@ -25,4 +25,6 @@ $router->get('/servicos/editar', 'ServicoController', 'editar');
 $router->post('/servicos/editar', 'ServicoController', 'atualizar');
 $router->get('/servicos/excluir', 'ServicoController', 'excluir');
 
+$router->get('/servicos/finalizar', 'ServicoController', 'finalizar');
+
 $router->dispatch($_GET['url'] ?? '', $_SERVER['REQUEST_METHOD']);

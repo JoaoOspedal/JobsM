@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Auth;
 use App\Models\ServicoModel;
+use App\Models\UsuarioModel;
 
 class ServicoController
 {
@@ -88,5 +89,47 @@ class ServicoController
         $_SESSION['sucesso'] = 'Serviço excluído.';
         header('Location: /JobsM/public/dashboard');
         exit;
+    }
+
+    public function finalizar(): void
+    {
+        Auth::checarLogado();
+
+        $id = (int) ($_GET['id'] ?? 0);
+        $model = new ServicoModel();
+        $servico = $model->buscarPorId($id);
+
+        if (!$servico) {
+            $_SESSION['erro'] = 'Serviço não encontrado.';
+            header('Location: /JobsM/public/dashboard');
+            exit;
+        }
+
+        $model->finalizar($id);
+
+        $servicoAtualizado = $model->buscarPorId($id);
+        $this->enviarEmailFinalizacao($servicoAtualizado);
+
+        $_SESSION['sucesso'] = 'Serviço finalizado com sucesso!';
+        header('Location: /JobsM/public/dashboard');
+        exit;
+    }
+
+    private function enviarEmailFinalizacao(array $servico): void
+    {
+        $usuarioModel = new UsuarioModel();
+        $usuario = $usuarioModel->buscarPorId($servico['usuario_id']);
+
+        if (!$usuario) {
+            return;
+        }
+
+        $assunto = 'Serviço finalizado: ' . $servico['descricao'];
+        $corpo = "Olá, {$usuario['nome']}!\n\n"
+            . "Seu serviço \"{$servico['descricao']}\" foi finalizado.\n"
+            . 'Valor: R$ ' . number_format($servico['valor'], 2, ',', '.') . "\n"
+            . 'Comissão: R$ ' . number_format($servico['comissao'], 2, ',', '.') . "\n";
+
+        mail($usuario['email'], $assunto, $corpo);
     }
 }

@@ -38,6 +38,22 @@
 
     <a href="/JobsM/public/servicos/novo">+ Novo serviço</a>
 
+    <form action="/JobsM/public/dashboard" method="GET" style="margin: 15px 0;">
+        <label>De: <input type="date" name="data_inicio" value="<?= htmlspecialchars($filtros['data_inicio']) ?>"></label>
+        <label>Até: <input type="date" name="data_fim" value="<?= htmlspecialchars($filtros['data_fim']) ?>"></label>
+        <label>Serviço: <input type="text" name="descricao" value="<?= htmlspecialchars($filtros['descricao']) ?>"></label>
+        <label>Status:
+            <select name="status">
+                <option value="">Todos</option>
+                <option value="Pendente" <?= $filtros['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
+                <option value="Finalizado" <?= $filtros['status'] === 'Finalizado' ? 'selected' : '' ?>>Finalizado</option>
+            </select>
+        </label>
+        <label>Usuário: <input type="text" name="usuario_nome" value="<?= htmlspecialchars($filtros['usuario_nome']) ?>"></label>
+        <button type="submit">Filtrar</button>
+        <a href="/JobsM/public/dashboard">Limpar</a>
+    </form>
+
     <table border="1" cellpadding="6">
         <tr>
             <th>ID</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Usuário</th><th>Ações</th>
