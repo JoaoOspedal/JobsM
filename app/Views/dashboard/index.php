@@ -11,6 +11,15 @@
         <a href="/JobsM/public/logout">Sair</a>
     </header>
 
+    <?php if (isset($_SESSION['sucesso'])): ?>
+        <p style="color: green;"><?= htmlspecialchars($_SESSION['sucesso']) ?></p>
+        <?php unset($_SESSION['sucesso']); ?>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['erro'])): ?>
+        <p style="color: red;"><?= htmlspecialchars($_SESSION['erro']) ?></p>
+        <?php unset($_SESSION['erro']); ?>
+    <?php endif; ?>
+
     <section style="background: #eef; padding: 10px; margin: 10px 0;">
         <strong>Valor total dos seus serviços: R$ <?= number_format($totalUsuario, 2, ',', '.') ?></strong>
     </section>

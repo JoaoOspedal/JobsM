@@ -18,4 +18,11 @@ $router->post('/login', 'AuthController', 'autenticar');
 $router->get('/logout', 'AuthController', 'sair');
 $router->get('/dashboard', 'DashboardController', 'index');
 
+$router->get('/servicos/novo', 'ServicoController', 'novo');
+$router->post('/servicos/novo', 'ServicoController', 'criar');
+
+$router->get('/servicos/editar', 'ServicoController', 'editar');
+$router->post('/servicos/editar', 'ServicoController', 'atualizar');
+$router->get('/servicos/excluir', 'ServicoController', 'excluir');
+
 $router->dispatch($_GET['url'] ?? '', $_SERVER['REQUEST_METHOD']);

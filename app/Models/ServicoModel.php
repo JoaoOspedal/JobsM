@@ -40,4 +40,42 @@ class ServicoModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function criar(string $descricao, float $valor, int $usuarioId): void {
+        
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('INSERT INTO servicos (descricao, valor, usuario_id) VALUES (:descricao, :valor, :usuario_id)');
+        $stmt->execute([
+            'descricao' => $descricao,
+            'valor' => $valor,
+            'usuario_id' => $usuarioId
+        ]);
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('SELECT * FROM servicos WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $servico = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $servico ?: null;
+    }
+
+    public function atualizar(int $id, string $descricao, float $valor): void
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('UPDATE servicos SET descricao = :descricao, valor = :valor WHERE id = :id');
+        $stmt->execute([
+            'descricao' => $descricao,
+            'valor' => $valor,
+            'id' => $id,
+        ]);
+    }
+
+    public function excluir(int $id): void
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('DELETE FROM servicos WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+    }
 }
