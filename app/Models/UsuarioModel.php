@@ -14,12 +14,14 @@ class UsuarioModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function criar(string $nome, string $email): void{
+    public function criar(string $nome, string $email, string $senha): void
+    {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare('INSERT INTO usuarios (nome, email) VALUES (:nome, :email)');
+        $stmt = $pdo->prepare('INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)');
         $stmt->execute([
             'nome' => $nome,
             'email' => $email,
+            'senha' => password_hash($senha, PASSWORD_DEFAULT),
         ]);
     }
 

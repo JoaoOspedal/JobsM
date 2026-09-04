@@ -67,13 +67,15 @@
             <td><?= htmlspecialchars($s['usuario_nome']) ?></td>
             <td>
                 <a href="/JobsM/public/servicos/editar?id=<?= $s['id'] ?>">Alterar</a>
-                <a href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>">Excluir</a>
+                <a href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>" data-confirmar="Tem certeza que quer excluir este serviço?">Excluir</a>
                 <?php if ($s['status'] === 'Pendente'): ?>
-                    <a href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>">Finalizar</a>
+                    <a href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>" data-confirmar="Finalizar este serviço? Essa ação não pode ser desfeita.">Finalizar</a>
                 <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>
     </table>
+    
+    <script src="/JobsM/public/assets/js/app.js"></script>
 </body>
 </html>

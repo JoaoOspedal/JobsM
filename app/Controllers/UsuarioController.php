@@ -21,13 +21,35 @@ class UsuarioController
     
     public function criar(): void
     {
-        $nome = $_POST['nome'] ?? '';
-        $email = $_POST['email'] ?? '';
+        $nome = trim($_POST['nome'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $senha = $_POST['senha'] ?? '';
 
-        $model = new UsuarioModel();
-        $model->criar($nome, $email);
+        if ($nome === '' || $email === '' || $senha === '') {
+            $_SESSION['erro'] = 'Preencha nome, e-mail e senha.';
+            header('Location: /JobsM/public/usuarios/novo');
+            exit;
+        }
 
-        header('Location: /JobsM/public/usuarios');
+        if (strlen($senha) < 6) {
+            $_SESSION['erro'] = 'A senha precisa ter pelo menos 6 caracteres.';
+            header('Location: /JobsM/public/usuarios/novo');
+            exit;
+        }
+
+        try {
+            $model = new UsuarioModel();
+            $model->criar($nome, $email, $senha);
+        } catch (\PDOException $e) {
+            $_SESSION['erro'] = $e->getCode() === '23000'
+                ? 'Esse e-mail já está cadastrado.'
+                : 'Erro ao cadastrar usuário.';
+            header('Location: /JobsM/public/usuarios/novo');
+            exit;
+        }
+
+        $_SESSION['sucesso'] = 'Usuário cadastrado!';
+        header('Location: /JobsM/public/login');
         exit;
     }
 }

@@ -11,6 +11,11 @@
         <p style="color: red;"><?= htmlspecialchars($_SESSION['erro']) ?></p>
         <?php unset($_SESSION['erro']); ?>
     <?php endif; ?>
+    
+    <?php if (isset($_SESSION['sucesso'])): ?>
+        <p style="color: green;"><?= htmlspecialchars($_SESSION['sucesso']) ?></p>
+        <?php unset($_SESSION['sucesso']); ?>
+    <?php endif; ?>
 
     <form action="/JobsM/public/login" method="POST">
         <label>E-mail: <input type="email" name="email" required></label><br>
