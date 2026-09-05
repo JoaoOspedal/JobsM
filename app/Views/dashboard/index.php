@@ -52,22 +52,20 @@
             <form class="filter-form" action="/JobsM/public/dashboard" method="GET">
                 <label>De: <input class="filter-box" type="date" name="data_inicio" value="<?= htmlspecialchars($filtros['data_inicio']) ?>"></label>
                 <label>Até: <input class="filter-box" type="date" name="data_fim" value="<?= htmlspecialchars($filtros['data_fim']) ?>"></label>
-                <label>Serviço: <input class="filter-box" type="text" name="descricao" value="<?= htmlspecialchars($filtros['descricao']) ?>"></label>
-                <label>Status:
-                    <select class="filter-box" name="status">
-                        <option value="">Todos</option>
-                        <option value="Pendente" <?= $filtros['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
-                        <option value="Finalizado" <?= $filtros['status'] === 'Finalizado' ? 'selected' : '' ?>>Finalizado</option>
-                    </select>
-                </label>
-                <label>Usuário: <input class="filter-box" type="text" name="usuario_nome" value="<?= htmlspecialchars($filtros['usuario_nome']) ?>"></label>
+                <input class="filter-box" type="text" name="descricao" placeholder="Serviço" value="<?= htmlspecialchars($filtros['descricao']) ?>">
+                <select class="filter-box" name="status">
+                    <option value="">Status</option>
+                    <option value="Pendente" <?= $filtros['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
+                    <option value="Finalizado" <?= $filtros['status'] === 'Finalizado' ? 'selected' : '' ?>>Finalizado</option>
+                </select>
+                <input class="filter-box" type="text" name="usuario_nome" placeholder="Usuário" value="<?= htmlspecialchars($filtros['usuario_nome']) ?>">
                 <button type="submit" class="bottons">Filtrar</button>
-                <a href="/JobsM/public/dashboard">Limpar</a>
+                <a class="bottons bottons--md" href="/JobsM/public/dashboard">Limpar</a>
             </form>
 
             <table class="servicos-table">
                 <tr>
-                    <th>ID</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Usuário</th><th>Ações</th>
+                    <th>ID</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Usuário</th><th class="table-actions-col"></th>
                 </tr>
                 <?php foreach ($servicos as $s): ?>
                 <tr>
@@ -76,11 +74,11 @@
                     <td><?= htmlspecialchars($s['status']) ?></td>
                     <td>R$ <?= number_format($s['valor'], 2, ',', '.') ?></td>
                     <td><?= htmlspecialchars($s['usuario_nome']) ?></td>
-                    <td class="table-actions">
-                        <a href="/JobsM/public/servicos/editar?id=<?= $s['id'] ?>">Alterar</a>
-                        <a href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>" data-confirmar="Tem certeza que quer excluir este serviço?">Excluir</a>
+                    <td class="table-actions-col table-actions">
+                        <a class="bottons bottons--sm" href="/JobsM/public/servicos/editar?id=<?= $s['id'] ?>">Alterar</a>
+                        <a class="bottons bottons--sm" href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>" data-confirmar="Tem certeza que quer excluir este serviço?">Excluir</a>
                         <?php if ($s['status'] === 'Pendente'): ?>
-                            <a href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>" data-confirmar="Finalizar este serviço? Essa ação não pode ser desfeita.">Finalizar</a>
+                            <a class="bottons bottons--sm" href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>" data-confirmar="Finalizar este serviço? Essa ação não pode ser desfeita.">Finalizar</a>
                         <?php endif; ?>
                     </td>
                 </tr>

@@ -44,6 +44,23 @@
     width: 25%;
     display: flex;
     justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.bottons--md {
+    width: auto;
+    display: inline-flex;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+}
+
+.bottons--sm {
+    width: auto;
+    display: inline-flex;
+    padding: 6px 10px;
+    font-size: 0.8rem;
 }
 
 .bottons--login {
@@ -112,7 +129,7 @@
 }
 
 .dashboard-column-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 0 0 12px;
 }
@@ -147,21 +164,27 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 16px;
+    font-size: 1.1rem;
 }
 
 .servicos-table th,
 .servicos-table td {
     border: 1px solid #1a1a1a;
-    padding: 10px 14px;
+    padding: 16px 18px;
     text-align: left;
 }
 
 .servicos-table th {
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
-.table-actions a {
-    margin-right: 10px;
+.servicos-table .table-actions-col {
+    border: none;
+}
+
+.table-actions {
+    display: flex;
+    gap: 10px;
 }
