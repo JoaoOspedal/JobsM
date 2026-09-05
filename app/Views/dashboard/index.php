@@ -3,79 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="/JobsM/public/assets/css/style.css">
 </head>
-<body>
-    <header>
-        <p>Usuário: <?= htmlspecialchars($_SESSION['usuario_nome']) ?> (<?= htmlspecialchars($_SESSION['usuario_email']) ?>)</p>
-        <p>Data: <?= date('d/m/Y') ?></p>
-        <a href="/JobsM/public/logout">Sair</a>
-    </header>
+<body style="margin: 0;">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-user">
+                Logado como:<br>
+                <?= htmlspecialchars($_SESSION['usuario_nome']) ?> (<?= htmlspecialchars($_SESSION['usuario_email']) ?>)
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/JobsM/public/servicos/novo">Cadastrar Serviço</a>
+                <a href="/JobsM/public/logout">Sair</a>
+            </nav>
+        </aside>
 
-    <?php if (isset($_SESSION['sucesso'])): ?>
-        <p style="color: green;"><?= htmlspecialchars($_SESSION['sucesso']) ?></p>
-        <?php unset($_SESSION['sucesso']); ?>
-    <?php endif; ?>
-    <?php if (isset($_SESSION['erro'])): ?>
-        <p style="color: red;"><?= htmlspecialchars($_SESSION['erro']) ?></p>
-        <?php unset($_SESSION['erro']); ?>
-    <?php endif; ?>
+        <main class="dashboard-content">
+            <h1 class="dashboard-title">Dashboard</h1>
 
-    <section style="background: #eef; padding: 10px; margin: 10px 0;">
-        <strong>Valor total dos seus serviços: R$ <?= number_format($totalUsuario, 2, ',', '.') ?></strong>
-    </section>
-
-    <section style="background: #fee; padding: 10px; margin: 10px 0;">
-        <strong>Seus serviços pendentes:</strong>
-        <ul>
-            <?php foreach ($pendentes as $p): ?>
-                <li><?= htmlspecialchars($p['descricao']) ?> — R$ <?= number_format($p['valor'], 2, ',', '.') ?></li>
-            <?php endforeach; ?>
-            <?php if (empty($pendentes)): ?>
-                <li>Nenhum serviço pendente.</li>
+            <?php if (isset($_SESSION['sucesso'])): ?>
+                <p style="color: green;"><?= htmlspecialchars($_SESSION['sucesso']) ?></p>
+                <?php unset($_SESSION['sucesso']); ?>
             <?php endif; ?>
-        </ul>
-    </section>
+            <?php if (isset($_SESSION['erro'])): ?>
+                <p style="color: red;"><?= htmlspecialchars($_SESSION['erro']) ?></p>
+                <?php unset($_SESSION['erro']); ?>
+            <?php endif; ?>
 
-    <a href="/JobsM/public/servicos/novo">+ Novo serviço</a>
+            <div class="dashboard-columns">
+                <div class="dashboard-column">
+                    <h2 class="dashboard-column-title">Valor total dos seus serviços</h2>
+                    <p>R$ <?= number_format($totalUsuario, 2, ',', '.') ?></p>
+                </div>
 
-    <form action="/JobsM/public/dashboard" method="GET" style="margin: 15px 0;">
-        <label>De: <input type="date" name="data_inicio" value="<?= htmlspecialchars($filtros['data_inicio']) ?>"></label>
-        <label>Até: <input type="date" name="data_fim" value="<?= htmlspecialchars($filtros['data_fim']) ?>"></label>
-        <label>Serviço: <input type="text" name="descricao" value="<?= htmlspecialchars($filtros['descricao']) ?>"></label>
-        <label>Status:
-            <select name="status">
-                <option value="">Todos</option>
-                <option value="Pendente" <?= $filtros['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
-                <option value="Finalizado" <?= $filtros['status'] === 'Finalizado' ? 'selected' : '' ?>>Finalizado</option>
-            </select>
-        </label>
-        <label>Usuário: <input type="text" name="usuario_nome" value="<?= htmlspecialchars($filtros['usuario_nome']) ?>"></label>
-        <button type="submit">Filtrar</button>
-        <a href="/JobsM/public/dashboard">Limpar</a>
-    </form>
+                <div class="dashboard-column">
+                    <h2 class="dashboard-column-title">Serviços Pendentes</h2>
+                    <ul>
+                        <?php foreach ($pendentes as $p): ?>
+                            <li><?= htmlspecialchars($p['descricao']) ?> — R$ <?= number_format($p['valor'], 2, ',', '.') ?></li>
+                        <?php endforeach; ?>
+                        <?php if (empty($pendentes)): ?>
+                            <li>Nenhum serviço pendente.</li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
 
-    <table border="1" cellpadding="6">
-        <tr>
-            <th>ID</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Usuário</th><th>Ações</th>
-        </tr>
-        <?php foreach ($servicos as $s): ?>
-        <tr>
-            <td><?= htmlspecialchars($s['id']) ?></td>
-            <td><?= htmlspecialchars($s['descricao']) ?></td>
-            <td><?= htmlspecialchars($s['status']) ?></td>
-            <td>R$ <?= number_format($s['valor'], 2, ',', '.') ?></td>
-            <td><?= htmlspecialchars($s['usuario_nome']) ?></td>
-            <td>
-                <a href="/JobsM/public/servicos/editar?id=<?= $s['id'] ?>">Alterar</a>
-                <a href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>" data-confirmar="Tem certeza que quer excluir este serviço?">Excluir</a>
-                <?php if ($s['status'] === 'Pendente'): ?>
-                    <a href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>" data-confirmar="Finalizar este serviço? Essa ação não pode ser desfeita.">Finalizar</a>
-                <?php endif; ?>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-    
+            <form class="filter-form" action="/JobsM/public/dashboard" method="GET">
+                <label>De: <input class="filter-box" type="date" name="data_inicio" value="<?= htmlspecialchars($filtros['data_inicio']) ?>"></label>
+                <label>Até: <input class="filter-box" type="date" name="data_fim" value="<?= htmlspecialchars($filtros['data_fim']) ?>"></label>
+                <label>Serviço: <input class="filter-box" type="text" name="descricao" value="<?= htmlspecialchars($filtros['descricao']) ?>"></label>
+                <label>Status:
+                    <select class="filter-box" name="status">
+                        <option value="">Todos</option>
+                        <option value="Pendente" <?= $filtros['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
+                        <option value="Finalizado" <?= $filtros['status'] === 'Finalizado' ? 'selected' : '' ?>>Finalizado</option>
+                    </select>
+                </label>
+                <label>Usuário: <input class="filter-box" type="text" name="usuario_nome" value="<?= htmlspecialchars($filtros['usuario_nome']) ?>"></label>
+                <button type="submit" class="bottons">Filtrar</button>
+                <a href="/JobsM/public/dashboard">Limpar</a>
+            </form>
+
+            <table class="servicos-table">
+                <tr>
+                    <th>ID</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Usuário</th><th>Ações</th>
+                </tr>
+                <?php foreach ($servicos as $s): ?>
+                <tr>
+                    <td><?= htmlspecialchars($s['id']) ?></td>
+                    <td><?= htmlspecialchars($s['descricao']) ?></td>
+                    <td><?= htmlspecialchars($s['status']) ?></td>
+                    <td>R$ <?= number_format($s['valor'], 2, ',', '.') ?></td>
+                    <td><?= htmlspecialchars($s['usuario_nome']) ?></td>
+                    <td class="table-actions">
+                        <a href="/JobsM/public/servicos/editar?id=<?= $s['id'] ?>">Alterar</a>
+                        <a href="/JobsM/public/servicos/excluir?id=<?= $s['id'] ?>" data-confirmar="Tem certeza que quer excluir este serviço?">Excluir</a>
+                        <?php if ($s['status'] === 'Pendente'): ?>
+                            <a href="/JobsM/public/servicos/finalizar?id=<?= $s['id'] ?>" data-confirmar="Finalizar este serviço? Essa ação não pode ser desfeita.">Finalizar</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        </main>
+    </div>
+
     <script src="/JobsM/public/assets/js/app.js"></script>
 </body>
 </html>
