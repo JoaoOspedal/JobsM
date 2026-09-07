@@ -41,6 +41,18 @@ class ServicoModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function finalizadosPorUsuario(int $usuarioId): array
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare(
+            'SELECT * FROM servicos
+             WHERE usuario_id = :id AND data_finalizacao IS NOT NULL
+             ORDER BY data_finalizacao ASC'
+        );
+        $stmt->execute(['id' => $usuarioId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function criar(string $descricao, float $valor, int $usuarioId): void {
         
         $pdo = Database::getConnection();

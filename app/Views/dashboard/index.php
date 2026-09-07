@@ -47,6 +47,18 @@
                         <?php endif; ?>
                     </ul>
                 </div>
+
+                <div class="dashboard-column">
+                    <h2 class="dashboard-column-title">Histórico de comissão</h2>
+                    <ul>
+                        <?php foreach ($finalizados as $f): ?>
+                            <li><?= htmlspecialchars($f['descricao']) ?> — R$ <?= number_format($f['comissao'], 2, ',', '.') ?></li>
+                        <?php endforeach; ?>
+                        <?php if (empty($finalizados)): ?>
+                            <li>Nenhum serviço finalizado.</li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
 
             <form class="filter-form" action="/JobsM/public/dashboard" method="GET">

@@ -23,6 +23,7 @@ class DashboardController
         $servicos = $model->listarComFiltros($filtros);
         $totalUsuario = $model->totalPorUsuario($_SESSION['usuario_id']);
         $pendentes = $model->pendentesPorUsuario($_SESSION['usuario_id']);
+        $finalizados = $model->finalizadosPorUsuario($_SESSION['usuario_id']);
 
         require __DIR__ . '/../Views/dashboard/index.php';
     }
