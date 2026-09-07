@@ -1,15 +1,15 @@
-# JobsM — Sistema de Ordens de Serviço
->Sistema criado para o teste de processo seletivo da Titan Software
+# JobsM: Sistema de Ordens de Serviço
+Sistema criado para o teste de processo seletivo da Titan Software
 
 ## Tecnologias
 
-- PHP 8+ (POO)
+- PHP 8+
 - MySQL, acessado via PDO com prepared statements
-- Arquitetura MVC própria — roteador e autoload (`spl_autoload_register`)
+- Arquitetura MVC, roteador e autoload (`spl_autoload_register`)
 - JavaScript pra validação de formulário e confirmações de ação
 - Apache com `mod_rewrite` (recomendo Laragon pra rodar local, é o que usei no desenvolvimento)
 
-## O que o sistema faz
+## Funções
 
 Um funcionário loga no sistema e cai numa Dashboard que mostra:
 
@@ -23,7 +23,7 @@ De lá, dá pra cadastrar um novo serviço, editar ou excluir um existente, e fi
 
 ## Rodando o projeto localmente
 
-**Pré-requisitos:** Laragon (ou qualquer PHP 8+ com Apache/MySQL e `mod_rewrite` habilitado).
+Pré-requisitos: Laragon (ou qualquer PHP 8+ com Apache/MySQL e `mod_rewrite` habilitado).
 
 1. Baixar o Laragon pra rodar o projeto:
 
@@ -38,9 +38,9 @@ De lá, dá pra cadastrar um novo serviço, editar ou excluir um existente, e fi
    git clone https://github.com/seu-usuario/JobsM.git
    ```
 
-3. Suba o Apache e o MySQL (no Laragon, botão "Start All").
+3. No Laragon, apertar botão "Start All" pra subir o Apache e o MySQL
 
-4. Crie o banco e as tabelas no HeidiSQL (Laragon > Menu > Database) ou no cliente MySQL de sua preferência:
+4. Crie o banco e as tabelas no HeidiSQL (Laragon > Menu > Database):
 
    ```sql
    CREATE DATABASE IF NOT EXISTS jobsm;
@@ -66,7 +66,7 @@ De lá, dá pra cadastrar um novo serviço, editar ou excluir um existente, e fi
    );
    ```
 
-5. Acesse `localhost/JobsM/public/` no navegador. Você vai cair na tela de login — mas ainda não existe ninguém cadastrado, então:
+5. Acesse `localhost/JobsM/public/` no navegador. Você vai cair na tela de login mas ainda não existe ninguém cadastrado, então:
 
 6. Vá em `localhost/JobsM/public/usuarios/novo` e crie sua própria conta (nome [decidi criar um campo "nome" pra exibição no dashboard], e-mail e uma senha com pelo menos 6 caracteres). Então realize o login.
 
@@ -74,15 +74,8 @@ As credenciais do banco estão fixas em `app/Core/Database.php`, que é o padrã
 
 ## Regras de negócio
 
-**Status do serviço não é um campo salvo — é calculado.** Em vez de guardar "Pendente" ou "Finalizado" como texto (que poderia ficar dessincronizado se alguém esquecesse de atualizar os dois campos juntos), o status sai direto da presença ou ausência de `data_finalizacao`. Sem data = pendente. Com data = finalizado.
-
-**Comissão por faixa de valor**, calculada no momento em que o serviço é finalizado:
-
-| Valor do serviço         | Comissão |
-|---------------------------|----------|
-| Até R$ 1.000,00            | 5%       |
-| Acima de R$ 1.000,00       | 10%      |
-| Acima de R$ 10.000,00      | 20%      |
+Status do serviço não é um campo salvo, é calculado. Em vez de guardar "Pendente" ou "Finalizado" como texto (que poderia ficar dessincronizado se alguém esquecesse de atualizar os dois campos juntos), o status sai direto da presença ou ausência de `data_finalizacao`.
+Comissão é por faixa de valor, calculada no momento em que o serviço é finalizado.
 
 ## Estrutura de pastas
 
@@ -106,13 +99,12 @@ JobsM/
 
 ## Sobre a validação
 
-Tem validação nos dois lados. O HTML usa `required` e o JavaScript confere antes de enviar, mas nenhum dos dois é a proteção de verdade. Quem realmente garante que nada inválido entra no banco é a validação em PHP, do lado do servidor, em cada Controller.
+A validação acontece nos dois lados. O HTML usa `required` e o JavaScript confere antes de enviar, mas nenhum dos dois é a proteção de verdade. Quem realmente garante que nada inválido entra no banco é a validação em PHP, do lado do servidor, em cada Controller.
 
-## O que eu sei que ainda pode melhorar
+## O que faltaria
 
-Sendo honesto sobre o estado atual:
 
-- O envio de e-mail na finalização usa a função `mail()` nativa do PHP. Ela roda sem erro e cumpre a lógica, mas sem um SMTP configurado (tipo Mailtrap), localmente ela não entrega nada de verdade — é mais uma prova de conceito do que um envio garantido.
-- Excluir um serviço hoje é um link simples (com confirmação via JavaScript), não uma requisição `DELETE` de verdade — uma simplificação do roteador caseiro, ciente da troca.
-- O cadastro de novos usuários está aberto, sem exigir login de um admin — decisão consciente pra facilitar que outras pessoas testem o sistema, mas não seria assim numa entrega de produção.
+
+- O envio de e-mail na finalização usa a função `mail()` nativa do PHP. Ela roda sem erro e cumpre a lógica, mas sem um SMTP configurado (tipo Mailtrap), localmente ela não entrega nada de verdade pois não foi solicitado no desafio.
+
 
