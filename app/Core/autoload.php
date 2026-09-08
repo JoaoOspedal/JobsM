@@ -1,7 +1,7 @@
 <?php
 
-//autoload pra nao usar composer
-
+// Autoload pra nao usar composer
+// Resolve o namespace "App\..." pro caminho do arquivo
 spl_autoload_register(function($class){
     $prefixo = 'App\\';
     $base_dir = __DIR__ . '/../';

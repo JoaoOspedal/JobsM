@@ -24,7 +24,8 @@ class AuthController
             header('Location: /JobsM/public/login');
             exit;
         }
-        
+
+        // Guarda só o essencial na sessão, nunca a senha nem o hash
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
         $_SESSION['usuario_email'] = $usuario['email'];

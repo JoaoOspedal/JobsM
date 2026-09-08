@@ -52,7 +52,7 @@
                     <h2 class="dashboard-column-title">Histórico de comissão</h2>
                     <ul>
                         <?php foreach ($finalizados as $f): ?>
-                            <li><?= htmlspecialchars($f['descricao']) ?> — R$ <?= number_format($f['comissao'], 2, ',', '.') ?></li>
+                            <li><?= htmlspecialchars(date('d/m/Y', strtotime($f['data_finalizacao']))) ?> - <?= htmlspecialchars($f['descricao']) ?>: R$ <?= number_format($f['comissao'], 2, ',', '.') ?></li>
                         <?php endforeach; ?>
                         <?php if (empty($finalizados)): ?>
                             <li>Nenhum serviço finalizado.</li>

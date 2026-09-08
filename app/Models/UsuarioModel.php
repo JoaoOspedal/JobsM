@@ -21,6 +21,8 @@ class UsuarioModel
         $stmt->execute([
             'nome' => $nome,
             'email' => $email,
+            // O hash acontece aqui dentro, não no Controller, assim nenhuma senha
+            // em texto puro chega perto de uma query
             'senha' => password_hash($senha, PASSWORD_DEFAULT),
         ]);
     }

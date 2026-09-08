@@ -1,11 +1,13 @@
 <?php
-//arquivo de configuração do banco de dados e PDO
+// Configuração do banco de dados e PDO
 namespace App\Core;
 
 use PDO;
 use PDOException;
 
 class Database {
+    // Singleton: reaproveita a mesma conexão em toda a requisição,
+    // em vez de abrir uma conexão nova em cada Model que precisar do banco
     private static ?PDO $instance = null;
 
     public static function getConnection(): PDO {

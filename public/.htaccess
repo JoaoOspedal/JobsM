@@ -1,4 +1,6 @@
-#htaccess pra cuidar dos redirecionamentos para index
+# .htaccess pra cuidar dos redirecionamentos para index
+# Só redireciona pro roteador se o caminho pedido não for um arquivo real
+
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

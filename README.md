@@ -13,10 +13,11 @@ Sistema criado para o teste de processo seletivo da Titan Software
 
 Um funcionário loga no sistema e cai numa Dashboard que mostra:
 
-- Os dados de quem está logado e a data atual
+- Os dados de quem está logado
 - Uma tabela com todos os serviços prestados (id, descrição, status, valor, responsável)
 - O valor total já prestado por ele, em destaque
 - Uma lista rápida dos serviços dele que ainda estão pendentes
+- Outra lista com o histórico de comissões
 - Filtros por período, nome do serviço, status e usuário
 
 De lá, dá pra cadastrar um novo serviço, editar ou excluir um existente, e finalizar um serviço pendente, calcula a comissão automaticamente e dispara um e-mail avisando o responsável.

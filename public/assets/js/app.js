@@ -1,3 +1,6 @@
+// Uso data-validar/data-confirmar em vez de IDs específicos pra esse mesmo
+// arquivo funcionar em todas as telas (cadastro e edição) sem duplicar JS
+
 document.addEventListener('DOMContentLoaded', function () {
     const formServico = document.querySelector('form[data-validar="servico"]');
 

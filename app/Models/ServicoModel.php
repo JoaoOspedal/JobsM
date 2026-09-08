@@ -126,9 +126,13 @@ class ServicoModel
         $pdo = Database::getConnection();
 
         $sql = "SELECT s.*, u.nome AS usuario_nome,
+                    -- Status não é uma coluna, calculo a partir da data_finalizacao pra não
+                    -- correr risco de ficar dessincronizado se eu esquecer de atualizar os dois
                     CASE WHEN s.data_finalizacao IS NULL THEN 'Pendente' ELSE 'Finalizado' END AS status
                 FROM servicos s
                 JOIN usuarios u ON u.id = s.usuario_id
+                -- WHERE 1=1 sempre verdadeiro, assim cada filtro abaixo só precisa
+                -- começar com AND, sem controlar manualmente se é o primeiro ou não
                 WHERE 1=1";
 
         $params = [];
